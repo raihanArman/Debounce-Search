@@ -5,12 +5,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
+import com.example.debounce_search.databinding.ActivityMainBinding
 
 private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity(){
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -26,9 +31,11 @@ class MainActivity : AppCompatActivity(){
                 newText?.let {
                     if(it.isEmpty()){
                         // Reset Search
+                        resetSearch()
                     }else{
+                        // Searching By Query
                         Log.d(TAG, "onCreateOptionsMenu: $it")
-                        searchThroughDatabase(it)
+                        binding.textview.text = it
                     }
                 }
             }
@@ -36,10 +43,10 @@ class MainActivity : AppCompatActivity(){
         return super.onCreateOptionsMenu(menu)
     }
 
-
-
-    private fun searchThroughDatabase(query: String) {
-        // Searching By Query
+    private fun resetSearch() {
+        binding.textview.text = ""
     }
+
+
 
 }
